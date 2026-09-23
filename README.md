@@ -10,9 +10,9 @@ A two-version demonstration of online profiling, built to show the two waves of 
 
 ---
 
-![Screenshot 2026-09-22 at 8.55.25 PM](media/Screenshot 2026-09-22 at 8.55.25 PM.jpeg)
+![Screenshot 2026-09-22 at 8.55.25 PM](media/1.jpeg)
 
-![Screenshot 2026-09-22 at 8.55.35 PM](media/Screenshot 2026-09-22 at 8.55.35 PM.jpeg)
+![Screenshot 2026-09-22 at 8.55.35 PM](media/1.jpeg)
 
 ---
 
@@ -20,11 +20,11 @@ A two-version demonstration of online profiling, built to show the two waves of 
 
 ---
 
-![Screenshot 2026-09-22 at 8.55.46 PM](media/Screenshot 2026-09-22 at 8.55.46 PM.jpeg)
+![Screenshot 2026-09-22 at 8.55.46 PM](media/3.jpeg)
 
-![Screenshot 2026-09-22 at 8.56.04 PM](media/Screenshot 2026-09-22 at 8.56.04 PM.jpeg)
+![Screenshot 2026-09-22 at 8.56.04 PM](media/4.jpeg)
 
-![Screenshot 2026-09-22 at 8.56.19 PM](media/Screenshot 2026-09-22 at 8.56.19 PM.jpeg)
+![Screenshot 2026-09-22 at 8.56.19 PM](media/5.jpeg)
 
 ## Running it
 
