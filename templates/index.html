@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Panopti — mint anything, be seen entirely</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/panopti.css') }}">
+</head>
+<body data-version="{{ state.version }}" data-pane="shop" data-tab="market" data-watch="on">
+
+<div id="app">
+  <header class="chrome">
+    <h1>Panopti <span>— the same marketplace, two ways of treating you</span></h1>
+    <div class="vswitch" role="group" aria-label="Choose version">
+      <button id="v1" aria-pressed="{{ 'true' if state.version == 1 else 'false' }}">v1</button>
+      <button id="v2" aria-pressed="{{ 'true' if state.version == 2 else 'false' }}">v2</button>
+    </div>
+    <span class="spacer"></span>
+    <span class="a11y-label">Text size</span>
+    <div class="a11y" role="group" aria-label="Text size">
+      <button id="fsDown" class="sm" title="Smaller text" aria-label="Smaller text">A</button>
+      <button id="fsReset" class="md" title="Default text size" aria-label="Default text size"
+              aria-pressed="true">A</button>
+      <button id="fsUp" class="lg" title="Larger text" aria-label="Larger text">A</button>
+    </div>
+    <button class="panetoggle" id="paneToggle" aria-pressed="true"
+            aria-controls="watchPane" title="Show or hide the data panel">
+      <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/>
+      <circle cx="12" cy="12" r="3"/></svg>
+      <span id="paneToggleLabel">Hide panel</span>
+    </button>
+    <span class="dbchip" id="dbChip" title="Live row counts in panopti.db">db: <b>0</b> rows</span>
+    <button id="resetBtn">Reset session</button>
+  </header>
+
+  <nav class="mobile-tabs" role="group" aria-label="Pane">
+    <button id="paneShop" aria-pressed="true">Marketplace</button>
+    <button id="paneWatch" aria-pressed="false">What we know</button>
+  </nav>
+
+  <div class="split">
+    <main class="pane-shop" id="shopPane">
+      <div class="shop-head">
+        <h1 class="logo"><span class="eye"><i></i></span>Panopti</h1>
+        <div class="searchwrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input id="search" type="search" placeholder="Search" autocomplete="off" aria-label="Search">
+        </div>
+        <span class="ptschip" id="ptsChip" title="Points are worth nothing."></span>
+        <button class="cartbtn" id="openCart">Cart <span class="count" id="cartCount">0</span></button>
+      </div>
+
+      <nav class="tabbar" role="tablist" aria-label="Sections">
+        <button role="tab" id="tabMarket" aria-selected="true" data-tab="market">Marketplace</button>
+        <button role="tab" id="tabRights" aria-selected="false" data-tab="rights" class="attention">
+          <span class="tabdot"></span>Your rights <span class="tabbadge">8</span>
+        </button>
+      </nav>
+
+      <!-- ---------------- marketplace ---------------- -->
+      <section class="shop-body" id="viewMarket">
+        <div class="pitch">
+          <h2>The only place to <span class="hl">buy NFT</span>.</h2>
+          <p>Nine collections. Each artwork is generated from its own SHA-256 digest, so no two
+             are alike and you can check the hash yourself on the card.</p>
+        </div>
+        <div class="adslot" id="adSlot"></div>
+        <div class="countline" id="countline"></div>
+        <div id="collections"></div>
+      </section>
+
+      <!-- ---------------- rights ---------------- -->
+      <section class="shop-body" id="viewRights" hidden>
+        <div class="rh">
+          <span class="rh-count">8 rights, all of them live</span>
+          <h2>These are your rights. Every button here actually works.</h2>
+          <p class="lede">No forms to print, no address to hunt for, no waiting on a reply.
+             Each one runs against the real database behind this app. Watch the panel on the
+             right, and the row counts in the header, change as you use them.</p>
+          <div class="rh-grid" id="rhGrid"></div>
+          <div class="rh-foot">
+            You can also <button data-right="withdraw">withdraw your consent</button> at any
+            moment — it has to be as easy as giving it was. If we get any of this wrong you can
+            <button data-right="complain">complain to your regulator</button> directly, free of
+            charge, without asking us first.
+          </div>
+        </div>
+        <div class="rh-db">
+          <h3>What is actually in the database right now</h3>
+          <p>One row per thing we know. This is read straight from <code>panopti.db</code>.</p>
+          <div class="dbgrid" id="dbGrid"></div>
+        </div>
+      </section>
+
+      <footer class="sitefoot">
+        <div class="sf-links">
+          <a href="/privacy">Privacy notice</a>
+          <a href="/terms">Terms of service</a>
+          <a href="/privacy" id="partnersLink">Who we share with</a>
+        </div>
+        <p class="sf-note" id="footNote"></p>
+      </footer>
+    </main>
+
+    <div class="resizer" id="resizer" role="separator" aria-orientation="vertical"
+         tabindex="0" aria-label="Resize the data panel. Use the left and right arrow keys."></div>
+
+    <!-- ---------------- watcher ---------------- -->
+    <aside class="pane-watch" id="watchPane">
+      <div class="w-head">
+        <div class="t">
+          <h2 id="wTitle">What we know (and are happy to sell)</h2>
+          <span class="sys" id="wSys">PAN-DMP v4.2</span>
+          <span style="flex:1"></span>
+          <span class="live" id="wLive"><span class="dot"></span>COLLECTING</span>
+        </div>
+        <p id="wSub">Assembled from this browser and stored on the server. Nothing here was
+           typed into a form on purpose.</p>
+        <div class="w-stats">
+          <span>fields <b id="stFields">0</b></span>
+          <span>events <b id="stEvents">0</b></span>
+          <span>buyers <b id="stParty">0</b></span>
+          <span>on page <b id="stTime">0 min</b></span>
+        </div>
+      </div>
+      <div class="w-body" id="wBody"></div>
+    </aside>
+  </div>
+</div>
+
+<div class="drawer-back" id="drawerBack"></div>
+<section class="drawer" id="drawer" aria-label="Cart">
+  <div class="drawer-head">
+    <h3 id="drawerTitle">Your cart</h3>
+    <button id="closeCart" aria-label="Close cart">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot" id="drawerFoot"></div>
+</section>
+
+<div class="wall" id="wall"><div class="wall-inner" id="wallInner"></div></div>
+<div class="modal-back" id="modalBack"><div class="modal" id="modal"></div></div>
+<div class="nag" id="nag"></div>
+<div class="sheet-back" id="sheetBack"><div class="sheet" id="sheet"></div></div>
+<button class="showpanel" id="showPanel">Show data panel</button>
+<button class="cookiebtn" id="cookieBtn" title="Your privacy choices"
+        aria-label="Open your privacy choices">&#127850;</button>
+<div class="viewer-back" id="viewerBack"><div class="viewer" id="viewer"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+  window.CATALOG = {{ catalog|tojson }};
+  window.INITIAL_STATE = {{ state|tojson }};
+  window.TOKEN_COUNT = {{ token_count }};
+</script>
+<script src="{{ url_for('static', filename='js/panopti.js') }}"></script>
+<script src="{{ url_for('static', filename='js/observer.js') }}"></script>
+</body>
+</html>

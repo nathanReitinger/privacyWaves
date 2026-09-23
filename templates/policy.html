@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ title }} — Panopti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/panopti.css') }}">
+<style>
+  body{overflow:auto}
+  .doc{max-width:860px;margin:0 auto;padding:34px 24px 90px}
+  .docback{display:inline-block;margin-bottom:20px;font-weight:700;
+    color:var(--shop-brand);text-decoration:underline;text-underline-offset:4px}
+  .doc h1{font-family:var(--shop-font);font-weight:800;letter-spacing:-.01em;
+    font-size:calc(38px * var(--fs));line-height:1.12;margin:0 0 6px}
+  .doc .updated{font-family:var(--mono);font-size:calc(11px * var(--fs));
+    color:var(--shop-ink-soft);margin:0 0 22px}
+  .doc h2{font-family:var(--shop-font);font-weight:700;letter-spacing:-.006em;
+    font-size:calc(23px * var(--fs));margin:32px 0 8px;line-height:1.2}
+  .doc h3{font-size:calc(15.5px * var(--fs));margin:20px 0 6px;font-weight:700}
+  .doc p,.doc li{font-size:calc(15px * var(--fs));line-height:1.62;
+    color:var(--shop-ink);margin:0 0 12px}
+  .doc .lede{font-size:calc(17px * var(--fs));line-height:1.55;color:var(--shop-ink-soft)}
+  .doc ul,.doc ol{padding-left:22px;margin:0 0 14px}
+  .doc a{color:var(--shop-brand);text-decoration:underline;text-underline-offset:3px}
+  .panel{background:var(--glass);backdrop-filter:var(--blur);
+    -webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-edge);
+    border-radius:var(--r-l);padding:20px 22px;margin:18px 0}
+  .panel.flag{border-color:color-mix(in srgb, var(--w-flag) 45%, transparent);
+    background:linear-gradient(150deg, rgba(220,60,70,.1), var(--glass) 60%)}
+  .ptable{width:100%;border-collapse:collapse;margin:14px 0 20px;
+    font-size:calc(13px * var(--fs))}
+  .ptable th{text-align:left;padding:9px 11px;background:var(--glass-strong);
+    border-bottom:2px solid var(--glass-edge);font-size:calc(11.5px * var(--fs));
+    text-transform:uppercase;letter-spacing:.05em;color:var(--shop-ink-soft)}
+  .ptable td{padding:10px 11px;border-bottom:1px solid var(--glass-edge);
+    vertical-align:top;line-height:1.45}
+  .ptable tr:last-child td{border-bottom:0}
+  .rcard{border:1px solid var(--glass-edge);border-radius:14px;padding:16px 18px;
+    margin-bottom:12px;background:var(--glass)}
+  .rcard h3{margin:0 0 3px}
+  .rcard .rmeta{font-family:var(--mono);font-size:calc(10.5px * var(--fs));
+    color:var(--shop-ink-soft);margin:0 0 10px}
+  .rcard dl{display:grid;grid-template-columns:150px 1fr;gap:5px 14px;margin:0;
+    font-size:calc(13px * var(--fs))}
+  .rcard dt{font-family:var(--mono);font-size:calc(10.5px * var(--fs));
+    color:var(--shop-ink-soft);text-transform:uppercase;letter-spacing:.04em;
+    padding-top:2px}
+  .rcard dd{margin:0;line-height:1.45}
+  .legal-dense{font-size:calc(12.5px * var(--fs));line-height:1.5;
+    color:var(--shop-ink-soft)}
+  .legal-dense p{font-size:inherit;color:inherit;margin:0 0 9px}
+  .docfoot{margin-top:40px;padding-top:18px;border-top:1px solid var(--glass-edge);
+    font-size:calc(12.5px * var(--fs));color:var(--shop-ink-soft)}
+  .docfoot a{margin-right:16px}
+  .teachnote{margin-top:26px;padding:15px 18px;border-radius:14px;
+    border-left:4px solid var(--shop-brand);background:var(--glass);
+    font-size:calc(13px * var(--fs));line-height:1.55;color:var(--shop-ink-soft)}
+  .teachnote b{color:var(--shop-ink)}
+  @media (max-width:620px){.rcard dl{grid-template-columns:1fr}
+    .rcard dt{padding-top:8px}}
+</style>
+</head>
+<body data-version="{{ version }}" data-watch="off">
+<div class="doc">
+  <a class="docback" href="/">&larr; Back to Panopti</a>
+  <h1>{{ title }}</h1>
+  <p class="updated">Version {{ version }} &middot; last updated {{ updated }}</p>
+
+  {% if version == 1 %}
+    {# ------------------------------------------------------------------ #}
+    {# v1: the document as most sites write it. Long, hedged, and vague    #}
+    {# exactly where it matters — no recipient is ever named.              #}
+    {# ------------------------------------------------------------------ #}
+    {% if doc == 'privacy' %}
+      <p class="lede">Panopti Ltd (&ldquo;we&rdquo;, &ldquo;us&rdquo;) respects your privacy. This notice explains
+        our approach to personal data in accordance with applicable law.</p>
+      <div class="legal-dense">
+        {% for h, body in sections %}
+          <h2>{{ h }}</h2>
+          {% for para in body %}<p>{{ para }}</p>{% endfor %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="lede">These terms govern your use of the Panopti marketplace.</p>
+      <div class="legal-dense">
+        {% for h, body in sections %}
+          <h2>{{ h }}</h2>
+          {% for para in body %}<p>{{ para }}</p>{% endfor %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  {% else %}
+    {# ------------------------------------------------------------------ #}
+    {# v2: a layered notice. Short summary first, detail underneath,       #}
+    {# recipients named one by one.                                        #}
+    {# ------------------------------------------------------------------ #}
+    {% if doc == 'privacy' %}
+      <p class="lede">The short version: we need very little to run a shop, we ask before
+        taking anything else, and everyone who receives your data is named below.</p>
+
+      <div class="panel">
+        <h3 style="margin-top:0">At a glance</h3>
+        <ul style="margin-bottom:0">
+          <li><b>Who we are.</b> Panopti Ltd, 4 Pocklington Yard, London EC1A 4XY.
+            Data protection officer: <a href="mailto:dpo@panopti.example">dpo@panopti.example</a>.</li>
+          <li><b>What we always collect.</b> Your session, your cart, and basic device and
+            network data. Needed to serve the page and keep it secure.</li>
+          <li><b>What we only collect if you agree.</b> Analytics, advertising, profiling,
+            and sharing with partners. All off unless you switch them on.</li>
+          <li><b>Who receives it.</b> Six organisations, named in section 4, with what each
+            one gets and why.</li>
+          <li><b>How long.</b> Six years for order records because tax law says so.
+            Everything optional is 13 to 14 months.</li>
+          <li><b>Your rights.</b> Section 7, and every one of them works from the
+            <a href="/#rights">Your rights</a> tab without emailing anyone.</li>
+        </ul>
+      </div>
+
+      <h2>1. Who is responsible</h2>
+      <p>Panopti Ltd is the controller for the processing described here. Our data
+        protection officer can be reached at
+        <a href="mailto:dpo@panopti.example">dpo@panopti.example</a> or at the postal
+        address above. You can contact the DPO about anything in this notice, and you
+        do not have to go through us before complaining to a regulator.</p>
+
+      <h2>2. What we collect, and why</h2>
+      <table class="ptable">
+        <thead><tr><th>Data</th><th>Purpose</th><th>Lawful basis</th><th>Kept for</th></tr></thead>
+        <tbody>
+        {% for row in purposes %}
+          <tr><td>{{ row[0] }}</td><td>{{ row[1] }}</td><td>{{ row[2] }}</td><td>{{ row[3] }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <p>Where the basis is consent you may withdraw it at any time, from the cookie
+        button at the bottom-left of any page. Withdrawal is as easy as giving it was,
+        and it takes effect immediately. It does not affect processing already carried
+        out.</p>
+
+      <h2>3. Strictly necessary processing</h2>
+      <p>Some processing happens whatever you choose, because the site cannot work
+        without it: keeping your session, remembering your cart, balancing load,
+        preventing fraud, and recording what you consented to so we can prove it. We
+        keep this category as narrow as we can, and we do not use it to smuggle in
+        analytics or advertising. If you reject everything else, this is all that runs.</p>
+
+      <h2>4. Who receives your data</h2>
+      <p>Article 13(1)(e) of the GDPR requires us to tell you the recipients, or the
+        categories of recipients, of your personal data. The European Data Protection
+        Board's transparency guidelines say the default should be actual names, and
+        that a controller using categories instead must still say what type of
+        organisation, in what industry and sector, and where. We have named them.</p>
+      <p>A recipient only appears here once the purpose it belongs to is switched on.
+        With everything optional rejected, only the three marked
+        <b>always</b> receive anything.</p>
+
+      {% for r in recipients %}
+        <div class="rcard">
+          <h3>{{ r.name }}</h3>
+          <p class="rmeta">{{ r.role }} &middot; {{ r.sector }} &middot; {{ r.location }}
+            {% if r.shares == 'necessary' %} &middot; always{% else %} &middot; only with your consent{% endif %}</p>
+          <dl>
+            <dt>Receives</dt><dd>{{ r.receives }}</dd>
+            <dt>Purpose</dt><dd>{{ r.purpose }}</dd>
+            <dt>Lawful basis</dt><dd>{{ r.basis }}</dd>
+            <dt>Transfers</dt><dd>{{ r.transfer }}</dd>
+            <dt>Retention</dt><dd>{{ r.retention }}</dd>
+          </dl>
+        </div>
+      {% endfor %}
+
+      <div class="panel">
+        <h3 style="margin-top:0">Advertisers</h3>
+        <p style="margin-bottom:0">{{ advertiser_note }}</p>
+      </div>
+
+      <h2>5. Transfers outside the EEA</h2>
+      <p>Two recipients are outside the EEA, and both are named above with the mechanism
+        that covers them: the EU&ndash;US Data Privacy Framework for NorthBeam Audiences,
+        and standard contractual clauses (Commission Decision 2021/914) plus a transfer
+        impact assessment for Veridia Risk Signals. A copy of the clauses is available
+        from the DPO on request.</p>
+
+      <h2>6. Automated decision-making</h2>
+      <p>If you consent to profiling, we order collections by predicted relevance and
+        choose which advertisement to show. This has no legal or similarly significant
+        effect on you, so Article 22(1) does not apply, but you can see the inputs and
+        ask a person to review the outcome from the Your rights tab.</p>
+
+      <h2>7. Your rights</h2>
+      <ul>
+        {% for name, art, text in rights %}
+          <li><b>{{ name }}</b> ({{ art }}) &mdash; {{ text }}</li>
+        {% endfor %}
+      </ul>
+      <p>Use any of them from the <a href="/#rights">Your rights</a> tab. We must respond
+        within one month, and we may extend that by two further months only for complex
+        requests, telling you why.</p>
+
+      <h2>8. Complaints</h2>
+      <p>You may complain to your supervisory authority at any time, free of charge, and
+        you do not need to contact us first. In the UK that is the Information
+        Commissioner's Office (ico.org.uk). In the EU it is the authority in the member
+        state where you live, where you work, or where the problem happened.</p>
+
+    {% else %}
+      <p class="lede">Plain terms for a shop that sells imaginary things.</p>
+      {% for h, body in sections %}
+        <h2>{{ h }}</h2>
+        {% for para in body %}<p>{{ para }}</p>{% endfor %}
+      {% endfor %}
+    {% endif %}
+  {% endif %}
+
+  <div class="teachnote">
+    <b>This is a teaching demonstration.</b> Panopti is not a real company and
+    nothing here is a real legal document. The two versions of this page exist to be
+    compared: version 1 is written the way most notices are, and version 2 is written
+    to the standard the GDPR and the EDPB's transparency guidelines actually ask for.
+    Switch versions on the main page and reload this one to see the difference.
+  </div>
+
+  <div class="docfoot">
+    <a href="/">Marketplace</a>
+    <a href="/privacy">Privacy notice</a>
+    <a href="/terms">Terms of service</a>
+    <span>&copy; Panopti Ltd</span>
+  </div>
+</div>
+</body>
+</html>
