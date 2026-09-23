@@ -12,7 +12,15 @@ A two-version demonstration of online profiling, built to show the two waves of 
 
 ![Screenshot 2026-09-22 at 8.55.25 PM](media/1.jpeg)
 
-![Screenshot 2026-09-22 at 8.55.35 PM](media/1.jpeg)
+*Figure 1. Notice-and-choice cookie-style banner.*
+
+![Screenshot 2026-09-22 at 8.55.35 PM](media/2.jpeg)
+
+*Figure 2. Website view (NFT sales).*
+
+![Screenshot 2026-09-22 at 8.55.46 PM](media/3.jpeg)
+
+*Figure 3. Right-pane data tracking perspective.*
 
 ---
 
@@ -20,11 +28,13 @@ A two-version demonstration of online profiling, built to show the two waves of 
 
 ---
 
-![Screenshot 2026-09-22 at 8.55.46 PM](media/3.jpeg)
-
 ![Screenshot 2026-09-22 at 8.56.04 PM](media/4.jpeg)
 
+*Figure 4. version 2 (second-wave privacy).*
+
 ![Screenshot 2026-09-22 at 8.56.19 PM](media/5.jpeg)
+
+*Figure 5. GDPR-style rights.*
 
 ## Running it
 
